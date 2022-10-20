@@ -10,7 +10,6 @@
  */
 
 
-
 const { ApolloError ,UserInputError} = require('apollo-server-express');
 const { Validator } = require('node-input-validator');
 
@@ -26,7 +25,7 @@ module.exports = async (parent, args, {db}, info) => {
         });
       }
     });
-    
+
 
     return await db.rule.insert({     },{returnAllFields: true});
   } catch (error) {

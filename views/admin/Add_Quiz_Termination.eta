@@ -1,0 +1,43 @@
+<% if(it.layout_clean_mode) {%>
+<% layout("../layouts/admin/Clean") %>
+<% } else {%>
+<% layout("../layouts/admin/Main") %>
+<%}%>
+
+<%~ includeFile("../partials/admin/Breadcrumb", it)%>
+
+<div class="tab-content m-xl-4 m-2">
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      <%~ includeFile("../partials/admin/GlobalResponse.eta", it) %>
+      <div class="form-container card py-3">
+        <h5 class="primaryHeading2 mb-4 text-md-left pl-3">
+          <%= it.heading %>
+        </h5>
+
+        <form action="/admin/quiz-termination-add" method="POST" id="add-question-form">
+
+          <div class="form-group required col-xl-6 col-12">
+            <label for="counter" class="control-label">Counter</label>
+
+            <input type="number" class="form-control data-input disabled" id="shown_counter"/>
+          </div>
+
+          <div class="form-group required col-xl-6 col-12 ">
+            <label for="question" class="control-label">Message</label>
+
+            <input type="text" required class="form-control data-input" id="termination_message" name="message" value="<%= it.form_fields['question'] %>" />
+
+          </div>
+
+          <div class="form-group pl-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/main.js?v=1.2"></script>

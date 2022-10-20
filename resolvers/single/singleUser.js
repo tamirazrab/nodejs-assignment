@@ -8,15 +8,13 @@
  * @author Ryan Wong
  *
  */
-
-
 const { ApolloError } = require('apollo-server-express');
 const graphqlFields = require('graphql-fields');
 
 module.exports = async (_, {id}, {db}, info) => {
   try {
     const attributes = db.user.intersection(graphqlFields(info));
-    
+
     return await db.user.getByPK(id);
   } catch (error) {
     console.log('single_user -> error', error);

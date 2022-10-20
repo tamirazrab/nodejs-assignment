@@ -41,8 +41,7 @@ module.exports = async (parent, args, {db}, info) => {
         });
       }
     });
-    
-
+   
     return await db.user.insert({    role_id,
    profile_id,
    organization_id,

@@ -1131,7 +1131,7 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
       selectAlreadyMcqiAnswered(`#typeMcqi button[data-val="${currenQuesAnswerObj.answer}"]`)
     }
   } // type 5 ends here
-  else if (type == 66) {
+  else if (type == 6) {
     $(".slider").removeClass("active")
     let atleastOneImage = false
     ranges = []
@@ -1204,8 +1204,7 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
       $("#myRange").trigger("input", [true])
     }
   } // type 6 ends here
-  else if (type == 6) {
-    console.log("🚀 ~ file: quiz-test.js ~ line 1222 ~ ques.answers.forEach ~ ques", ques)
+  else if (type == 7) {
     $("#typeSelection .answerInner").html("")
     $("#typeSelection").css("display", "block")
     currentActiveAnswerType = "typeSelection"
@@ -1217,12 +1216,11 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
       if (val.answer) {
         $("#typeSelection .answerInner").append(`
           <div class="selectionOptions">
-            <button data-val="${val.answer}" data-id="${val.id}" onclick="checkAllergie()" class="selectionBtns selectionBtn" >${val.answer}</button>
+            <button data-val="${val.answer}" data-id="${val.id}" onclick="checkAllergie(this)" class="selectionBtns selectionBtn" >${val.answer}</button>
           </div>
         `)
       }
       if (index === totalOptions - 1) {
-        console.log("🚀 ~ file: quiz-test.js ~ line 1226 ~ ques.answers.forEach ~ index === totalOptions - 1", index === totalOptions - 1)
         $("#typeSelection .answerInner").append(`
           <div class="selectionOptions">
          <button data-val="NoneOfAbove" data-id="null" onclick="handleNoneOfTheAbove()" class="selectionBtns selectionBtn" >None of the above</button>
@@ -1231,9 +1229,6 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
 
       }
     })
-
-
-
 
     if (alreadyAnswered && alreadyAnswered.answer) {
       if (Array.isArray(alreadyAnswered.answer)) {
@@ -1821,6 +1816,73 @@ function handleImageMissing(self) {
   $(self).addClass("image-missing")
 }
 
-function checkAllergie() {
+function checkAllergie(element) {
+  const label = $(element).data('data-val')
+  const id = $(element).data('data-id')
+
+  if (!["Banana", "Olive", "Sunflowers"].includes(label)) {
+    terminateQuiz()
+  }
+}
+
+
+async function terminateQuiz() {
+  const terminateQuizRes = await fetch("/cart/clear")
+  const defaultTerminateScreen = {
+    message: "You have an allergy to one of the main ingredients in our system. Our current system will not suit you.",
+    counter: 10
+  }
+
+  if (!terminateQuizRes.success) {
+    $("#page7").css("background-color", "black")
+    $("#page7").append(`
+          <div class="terminate-quiz">
+          <p>${defaultTerminateScreen.message}</p>
+          <h1>Quiz will now be terminated</h1>
+<p class="count" data-value="0" ></p>
+          </div>
+        `)
+
+    $('.count').each(function () {
+      $(this).prop('Counter', defaultTerminateScreen.counter).animate({
+        Counter: $(this).data('value')
+      }, {
+        duration: 1000,
+        easing: 'swing',
+        step: function () {
+          $(this).text(this.Counter.toFixed(2))
+        },
+        complete: function () {
+          // redirect back to homepage
+          window.location = window.location.host
+        }
+      })
+    })
+  } else {
+    $("#page7").css("background-color", "black")
+    $("#page7").append(`
+          <div class="terminate-quiz">
+          <p>${terminateQuizRes.data.message}</p>
+          <h1>Quiz will now be terminated</h1>
+<p class="count" data-value="0" ></p>
+          </div>
+        `)
+
+    $('.count').each(function () {
+      $(this).prop('Counter', terminateQuizRes.data.counter).animate({
+        Counter: $(this).data('value')
+      }, {
+        duration: 1000,
+        easing: 'swing',
+        step: function () {
+          $(this).text(this.Counter.toFixed(2))
+        },
+        complete: function () {
+          // redirect back to homepage
+          window.location = window.location.host
+        }
+      })
+    })
+  }
 
 }
