@@ -324,7 +324,9 @@ function calculatePollution(airQuality) {
 app.get("/api/v1/terminationScreen", async function (req, res, next) {
   try {
     //body should have actives lsit as array
-    const data = await db.termination.getAll()
+    const data = await db.termination.findAll()
+    console.log("🚀 ~ file: index.js ~ line 328 ~ data", data)
+    console.log("🚀 ~ file: index.js ~ line 328 ~ db.termination", db.order)
 
     if (!data) {
       return res.status(404).json({ success: false, message: `There are no rules` })

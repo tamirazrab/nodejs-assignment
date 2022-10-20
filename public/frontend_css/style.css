@@ -1442,3 +1442,16 @@ img.image-missing {
   display: none;
   border-left: none;
 }
+
+.terminate-quiz {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            text-align: center;
+            min-height: 400px;
+            background-color: black;
+            align-items: center;
+color: white;
+}

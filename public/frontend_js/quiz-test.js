@@ -244,6 +244,9 @@ function applyFinalCalculations(blFilterdActiveList, activesToAdd, activesToRemo
   } else {
     finalActivesList.unshift(["Base Refill", 100])
   }
+
+  terminateQuiz()
+
   return finalActivesList
 }
 async function getEngineRules(uniqueWeights) {
@@ -1046,6 +1049,7 @@ async function askQuestion(totalQuizQuestions, counter, fromBack) {
   console.log("🚀 ~ file: quiz-test.js ~ line 1048 ~ askQuestion ~ type", type)
   // checking question type
   if (type == 1) {
+    terminateQuiz()
     $("#typeText").css("display", "block")
     $("#typeText input").removeAttr("disabled")
     $("#typeText input").removeClass("disabled")
@@ -1825,17 +1829,18 @@ function checkAllergie(element) {
   }
 }
 
-
 async function terminateQuiz() {
-  const terminateQuizRes = await fetch("/cart/clear")
+  const terminateQuizRes = await fetch("api/v1/terminationScreen")
+  console.log("🚀 ~ file: quiz-test.js ~ line 1834 ~ terminateQuiz ~ terminateQuizRes", terminateQuizRes)
   const defaultTerminateScreen = {
     message: "You have an allergy to one of the main ingredients in our system. Our current system will not suit you.",
     counter: 10
   }
 
   if (!terminateQuizRes.success) {
-    $("#page7").css("background-color", "black")
-    $("#page7").append(`
+    $("body").empty()
+    $("body").css("background-color", "black")
+    $("body").append(`
           <div class="terminate-quiz">
           <p>${defaultTerminateScreen.message}</p>
           <h1>Quiz will now be terminated</h1>
@@ -1847,26 +1852,28 @@ async function terminateQuiz() {
       $(this).prop('Counter', defaultTerminateScreen.counter).animate({
         Counter: $(this).data('value')
       }, {
-        duration: 1000,
+        duration: 10000,
         easing: 'swing',
         step: function () {
           $(this).text(this.Counter.toFixed(2))
         },
         complete: function () {
           // redirect back to homepage
-          window.location = window.location.host
+          window.location = '/'
         }
       })
     })
   } else {
-    $("#page7").css("background-color", "black")
-    $("#page7").append(`
+    $("body").empty()
+
+    $("body").append(`
           <div class="terminate-quiz">
           <p>${terminateQuizRes.data.message}</p>
           <h1>Quiz will now be terminated</h1>
 <p class="count" data-value="0" ></p>
           </div>
         `)
+
 
     $('.count').each(function () {
       $(this).prop('Counter', terminateQuizRes.data.counter).animate({
@@ -1879,7 +1886,7 @@ async function terminateQuiz() {
         },
         complete: function () {
           // redirect back to homepage
-          window.location = window.location.host
+          window.location = '/'
         }
       })
     })

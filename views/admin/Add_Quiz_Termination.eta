@@ -27,7 +27,6 @@
             <label for="question" class="control-label">Message</label>
 
             <input type="text" required class="form-control data-input" id="termination_message" name="message" />
-
           </div>
 
           <div class="form-group pl-3">

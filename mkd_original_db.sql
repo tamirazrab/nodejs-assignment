@@ -99,6 +99,16 @@ DELETE FROM `admin_operation`;
 /*!40000 ALTER TABLE `admin_operation` DISABLE KEYS */;
 /*!40000 ALTER TABLE `admin_operation` ENABLE KEYS */;
 
+DROP TABLE IF EXISTS `termination`;
+CREATE TABLE IF NOT EXISTS `termination` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `message` text DEFAULT NULL,
+  `counter` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8mb4;
+
 -- Dumping structure for table mkd.answer
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE IF NOT EXISTS `answer` (
