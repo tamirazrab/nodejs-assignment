@@ -466,7 +466,7 @@ app.get("/admin/quiz-termination-add", SessionService.verifySessionMiddleware(ro
 
   const viewModel = new quizTerminationAdminAddViewModel(db.termination, "Add Message and Counter", "", "", "/admin/quizTermination")
 
-  res.render("admin/Add_Quiz_Termination_Message", viewModel)
+  res.render("admin/Add_Quiz_Termination", viewModel)
 })
 
 app.post(
@@ -488,6 +488,7 @@ app.post(
     const viewModel = new quizTerminationAdminAddViewModel(db.termination, "Add Message and Counter", "", "", "/admin/quizTermination")
 
     const { message, counter } = req.body
+    console.log("🚀 ~ file: Admin_quiz_controller.js ~ line 491 ~ req.body", req.body)
 
     viewModel.form_fields = {
       ...viewModel.form_fields,
@@ -498,7 +499,7 @@ app.post(
     try {
       if (req.validationError) {
         viewModel.error = req.validationError
-        return res.render("admin/Add_Quiz_Termination_Message", viewModel)
+        return res.render("admin/Add_Quiz_Termination", viewModel)
       }
 
       viewModel.session = req.session
@@ -510,11 +511,11 @@ app.post(
 
       if (!data) {
         viewModel.error = "Something went wrong"
-        return res.render("admin/Add_Quiz_Termination_Message", viewModel)
+        return res.render("admin/Add_Quiz_Termination", viewModel)
       }
 
       req.flash("success", "Question created successfully")
-      return res.redirect("/admin/questions/0")
+      return res.redirect("/admin/quiz-termination-add")
     } catch (error) {
       console.error(error)
       viewModel.error = error.message || "Something went wrong"

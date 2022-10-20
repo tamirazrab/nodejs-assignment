@@ -20,13 +20,13 @@
           <div class="form-group required col-xl-6 col-12">
             <label for="counter" class="control-label">Counter</label>
 
-            <input type="number" class="form-control data-input disabled" id="shown_counter"/>
+            <input type="number" name="counter" class="form-control data-input disabled" id="shown_counter"/>
           </div>
 
           <div class="form-group required col-xl-6 col-12 ">
             <label for="question" class="control-label">Message</label>
 
-            <input type="text" required class="form-control data-input" id="termination_message" name="message" value="<%= it.form_fields['question'] %>" />
+            <input type="text" required class="form-control data-input" id="termination_message" name="message" />
 
           </div>
 
@@ -39,5 +39,3 @@
     </div>
   </div>
 </div>
-
-<script src="/js/main.js?v=1.2"></script>

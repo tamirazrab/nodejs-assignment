@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: true,
       freezeTableName: true,
-      tableName: "question",
+      tableName: "termination",
     },
     {
       underscoredAll: false,
@@ -53,8 +53,8 @@ module.exports = (sequelize, DataTypes) => {
 
   Termination._filterAllowKeys = function (data) {
     let cleanData = {}
-    let allowedFields = Question.allowFields()
-    allowedFields.push(Question._primaryKey())
+    let allowedFields = Termination.allowFields()
+    allowedFields.push(Termination._primaryKey())
 
     for (const key in data) {
       if (allowedFields.includes(key)) {
