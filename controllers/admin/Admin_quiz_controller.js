@@ -458,6 +458,7 @@ app.get("/admin/api/quizzes", async function (req, res, next) {
 })
 
 app.get("/admin/quiz-termination-add", SessionService.verifySessionMiddleware(role, "admin"), async function (req, res, next) {
+
   if (req.session.csrf === undefined) {
     req.session.csrf = SessionService.randomString(100)
   }
@@ -480,6 +481,7 @@ app.post(
     }
   ),
   async function (req, res, next) {
+    console.log("🚀 ~ file: Admin_quiz_controller.js ~ line 491 ~ req.body", req.body)
     if (req.session.csrf === undefined) {
       req.session.csrf = SessionService.randomString(100)
     }
@@ -488,13 +490,13 @@ app.post(
     const viewModel = new quizTerminationAdminAddViewModel(db.termination, "Add Message and Counter", "", "", "/admin/quizTermination")
 
     const { message, counter } = req.body
-    console.log("🚀 ~ file: Admin_quiz_controller.js ~ line 491 ~ req.body", req.body)
 
     viewModel.form_fields = {
       ...viewModel.form_fields,
       message,
       counter,
     }
+    console.log("🚀 ~ file: Admin_quiz_controller.js ~ line 496 ~  viewModel.form_fields",  viewModel.form_fields)
 
     try {
       if (req.validationError) {
@@ -508,6 +510,7 @@ app.post(
         message,
         counter,
       })
+      console.log("🚀 ~ file: Admin_quiz_controller.js ~ line 512 ~ data", data)
 
       if (!data) {
         viewModel.error = "Something went wrong"

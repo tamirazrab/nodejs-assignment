@@ -23,19 +23,15 @@ module.exports = function (entity, pageName = '', success, error, base_url = "")
   this._base_url = base_url
 
 
-
   this.get_page_name = () => pageName
 
   this.endpoint = "/admin/"
-
 
   this.heading = "Add Quiz Termination Message"
 
   this.action = "/admin/quiz-termination-add"
 
-
-
-  this.form_fields = { "name": "", "description": "" }
+  this.form_fields = { "message": "", "counter": "" }
 
 
 

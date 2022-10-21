@@ -1830,7 +1830,16 @@ function checkAllergie(element) {
 }
 
 async function terminateQuiz() {
-  const terminateQuizRes = await fetch("api/v1/terminationScreen")
+  const terminateQuizRes = await fetch("api/v1/terminationScreen", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  }).then(res => {
+    return res.json()
+  })
+
+
   console.log("🚀 ~ file: quiz-test.js ~ line 1834 ~ terminateQuiz ~ terminateQuizRes", terminateQuizRes)
   const defaultTerminateScreen = {
     message: "You have an allergy to one of the main ingredients in our system. Our current system will not suit you.",
@@ -1841,18 +1850,18 @@ async function terminateQuiz() {
     $("body").empty()
     $("body").css("background-color", "black")
     $("body").append(`
-          <div class="terminate-quiz">
-          <p>${defaultTerminateScreen.message}</p>
-          <h1>Quiz will now be terminated</h1>
-<p class="count" data-value="0" ></p>
-          </div>
-        `)
+            <div class="terminate-quiz">
+            <p>${defaultTerminateScreen.message}</p>
+            <h1>Quiz will now be terminated</h1>
+  <p class="count" data-value="0" ></p>
+            </div>
+          `)
 
     $('.count').each(function () {
-      $(this).prop('Counter', defaultTerminateScreen.counter).animate({
+      $(this).prop('Counter', 100).animate({
         Counter: $(this).data('value')
       }, {
-        duration: 10000,
+        duration: defaultTerminateScreen.counter,
         easing: 'swing',
         step: function () {
           $(this).text(this.Counter.toFixed(2))
@@ -1868,7 +1877,7 @@ async function terminateQuiz() {
 
     $("body").append(`
           <div class="terminate-quiz">
-          <p>${terminateQuizRes.data.message}</p>
+          <p>${terminateQuizRes.data[0].message}</p>
           <h1>Quiz will now be terminated</h1>
 <p class="count" data-value="0" ></p>
           </div>
@@ -1876,10 +1885,10 @@ async function terminateQuiz() {
 
 
     $('.count').each(function () {
-      $(this).prop('Counter', terminateQuizRes.data.counter).animate({
+      $(this).prop('Counter', 10).animate({
         Counter: $(this).data('value')
       }, {
-        duration: 1000,
+        duration: terminateQuizRes.data[0].counter,
         easing: 'swing',
         step: function () {
           $(this).text(this.Counter.toFixed(2))
